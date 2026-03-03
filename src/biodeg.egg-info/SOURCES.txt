@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+src/biodeg/__init__.py
+src/biodeg/config.py
+src/biodeg/graph.py
+src/biodeg/model.py
+src/biodeg.egg-info/PKG-INFO
+src/biodeg.egg-info/SOURCES.txt
+src/biodeg.egg-info/dependency_links.txt
+src/biodeg.egg-info/top_level.txt
+tests/test_smoke.py
