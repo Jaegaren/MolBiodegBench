@@ -3,7 +3,6 @@
 # Functions adapted from:
 # github.com/pkoerner6/Prediction-of-Aerobic-Biodegradability-of-Organic-Chemicals
 # ──────────────────────────────────────────────────────────────────────────────
-# claude --resume 4e37957c-fe2d-4a9e-a485-6a68a819b157 per continuare claude
 from typing import Tuple, List, Optional
 import numpy as np
 import pandas as pd
