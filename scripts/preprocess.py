@@ -179,29 +179,30 @@ def skf_class_fixed_testset(
 # Apply splitting: df_curated_final (train) vs df_curated_scs (fixed test set)
 # ──────────────────────────────────────────────────────────────────────────────
 
-import sys
-sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
-import download_data
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
+    import download_data
 
-df_curated_biowin, df_curated_final, df_curated_scs = download_data.load_curated_datasets()
+    df_curated_biowin, df_curated_final, df_curated_scs = download_data.load_curated_datasets()
 
-print(f"df_curated_final (train pool): {df_curated_final.shape}")
-print(f"df_curated_scs   (test set):   {df_curated_scs.shape}")
+    print(f"df_curated_final (train pool): {df_curated_final.shape}")
+    print(f"df_curated_scs   (test set):   {df_curated_scs.shape}")
 
-cols = ["cas", "smiles", "y_true"]
+    cols = ["cas", "smiles", "y_true"]
 
-print("\nRunning 5-fold cross-validation with fixed test set (df_curated_scs)...")
-x_train_folds, y_train_folds, x_test_folds, y_test_folds, df_test_folds, test_sizes = skf_class_fixed_testset(
-    df=df_curated_final,
-    df_test=df_curated_scs,
-    nsplits=5,
-    random_seed=42,
-    include_speciation=False,
-    cols=cols,
-    paper=False,
-    target_col="y_true",
-)
+    print("\nRunning 5-fold cross-validation with fixed test set (df_curated_scs)...")
+    x_train_folds, y_train_folds, x_test_folds, y_test_folds, df_test_folds, test_sizes = skf_class_fixed_testset(
+        df=df_curated_final,
+        df_test=df_curated_scs,
+        nsplits=5,
+        random_seed=42,
+        include_speciation=False,
+        cols=cols,
+        paper=False,
+        target_col="y_true",
+    )
 
-print("\nResults per fold:")
-for i in range(5):
-    print(f"  Fold {i+1}: x_train={x_train_folds[i].shape}, x_test={x_test_folds[i].shape}, test_size={test_sizes[i]}")
+    print("\nResults per fold:")
+    for i in range(5):
+        print(f"  Fold {i+1}: x_train={x_train_folds[i].shape}, x_test={x_test_folds[i].shape}, test_size={test_sizes[i]}")

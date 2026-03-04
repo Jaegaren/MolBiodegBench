@@ -41,4 +41,13 @@ def load_graphs(csv_path):
     return graphs
 
 
+def smiles_to_graphs(smiles_array, labels_array):
+    graphs = []
+    for smiles, label in zip(smiles_array, labels_array):
+        g = mol_to_graph(smiles, int(label))
+        if g is not None:
+            graphs.append(g)
+    return graphs
+
+
 
