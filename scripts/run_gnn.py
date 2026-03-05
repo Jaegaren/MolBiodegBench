@@ -42,7 +42,7 @@ for fold in range(5):
     train_graphs = smiles_to_graphs(x_train_folds[fold], y_train_folds[fold])
     test_graphs  = smiles_to_graphs(x_test_folds[fold],  y_test_folds[fold])
 
-    train_loader = DataLoader(train_graphs, batch_size=BATCH, shuffle=True)
+    train_loader = DataLoader(train_graphs, batch_size=BATCH, shuffle=False)
     test_loader  = DataLoader(test_graphs,  batch_size=BATCH)
 
     model = GCN().to(device)
