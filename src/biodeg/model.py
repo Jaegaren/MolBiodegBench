@@ -6,7 +6,7 @@ class GCN(torch.nn.Module):
 
 
 
-    def __init__(self, in_channels=5, hidden=64):
+    def __init__(self, in_channels=7, hidden=64):
         super().__init__()
         self.conv1 = GCNConv(in_channels, hidden)
         self.conv2 = GCNConv(hidden, hidden)

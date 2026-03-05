@@ -45,7 +45,7 @@ def mol_to_graph(smiles, label):
     atoms = []
 
     for atom in mol.GetAtoms():
-        atoms.append([atom.GetAtomicNum(), atom.GetDegree(), int(atom.GetIsAromatic()), atom.GetTotalNumHs(), int(atom.IsInRing())])
+        atoms.append([atom.GetAtomicNum(), atom.GetDegree(), int(atom.GetIsAromatic()), atom.GetTotalNumHs(), int(atom.IsInRing()), atom.GetFormalCharge(), atom.GetHybridization().real])
 
     edges = []
 
