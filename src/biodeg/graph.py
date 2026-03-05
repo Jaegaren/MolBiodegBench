@@ -1,9 +1,42 @@
-from rdkit import Chem
+from rdkit import Chem, RDLogger
 import torch
-from torch_geometric.data import Data
 import pandas as pd
+from rdkit.Chem.MolStandardize import rdMolStandardize
+from torch_geometric.data import Data
+
+RDLogger.DisableLog('rdApp.*')
+
+
+def standardize_smiles(smiles):
+
+    try:
+
+        #step 1
+        if smiles:
+            mol = Chem.MolFromSmiles(smiles)
+        else:
+            None
+
+        if mol is None:
+            return None
+
+        #step 2
+        mol = rdMolStandardize.LargestFragmentChooser().choose(mol)
+
+        #step 3
+        mol = rdMolStandardize.Uncharger().uncharge(mol)
+
+        #step 4
+        return Chem.MolToSmiles(mol, canonical=True, isomericSmiles=True)
+    except:
+        return smiles
+
 
 def mol_to_graph(smiles, label):
+    smiles = standardize_smiles(smiles)
+    if smiles is None:
+        return None
+
     mol = Chem.MolFromSmiles(smiles)
 
     if mol is None:
@@ -12,7 +45,7 @@ def mol_to_graph(smiles, label):
     atoms = []
 
     for atom in mol.GetAtoms():
-        atoms.append([atom.GetAtomicNum(), atom.GetDegree(), int(atom.GetIsAromatic()), atom.GetTotalNumHs(), int(atom.IsInRing()),])
+        atoms.append([atom.GetAtomicNum(), atom.GetDegree(), int(atom.GetIsAromatic()), atom.GetTotalNumHs(), int(atom.IsInRing())])
 
     edges = []
 

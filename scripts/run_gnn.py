@@ -13,7 +13,7 @@ from src.biodeg.model import GCN
 from download_data import load_curated_datasets
 from preprocess import skf_class_fixed_testset
 
-EPOCHS = 150
+EPOCHS = 25
 LR = 1e-3
 BATCH = 32
 SEED = 42
