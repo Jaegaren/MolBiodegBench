@@ -159,4 +159,3 @@ dependencies:
       - tqdm==4.67.3
       - xarray==2026.2.0
       - yarl==1.23.0
-prefix: /opt/miniconda3/envs/GNN_chem2
