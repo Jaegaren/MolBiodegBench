@@ -20,7 +20,7 @@ EPOCHS = 150
 LR = 1e-3
 BATCH = 32
 SEED = 42
-WEIGHT_DECAY = 1e-4
+WEIGHT_DECAY = 1e-3
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -28,7 +28,7 @@ df_biowin, df_final, df_scs = load_curated_datasets()
 
 x_train_folds, y_train_folds, x_test_folds, y_test_folds, _, _ = skf_class_fixed_testset(
     df=df_final,
-    df_test=df_scs,
+    df_test=df_biowin,
     nsplits=5,
     random_seed=SEED,
     include_speciation=False,
@@ -138,5 +138,6 @@ ax.set_xlabel('Predicted')
 ax.set_ylabel('True')
 ax.set_title('Confusion Matrix — aggregated over 5 folds')
 plt.tight_layout()
-plt.savefig("confusion_matrix.png", dpi=150)
+#plt.savefig("confusion_matrix.png", dpi=150)
+plt.savefig("confusion_matrix_biowin.png", dpi=150)
 plt.show()
