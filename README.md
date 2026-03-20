@@ -1,39 +1,49 @@
 # MolBiodegBench
 
-Predicting biodegradability of organic chemicals using graph neural networks.
-This repository contains code for three modelling approaches: recreated legacy 
-ML models, a custom GCN trained from scratch, and a finetuned CheMeleon GNN.
+Predicting biodegradability of organic chemicals using graph neural networks,
+comparing GNN-based approaches against classical fingerprint-based baselines.
 
 ## Project Structure
 ```
 MolBiodegBench/
-├── legacy_models/
-│   ├── models.ipynb              # KNN, SVM, PLS-DA recreation of Mansouri et al.
-│   └── environment_mansouri.yml  # Conda environment for legacy models
-├── finetuning/
-│   ├── new_GNN.ipynb             # CheMeleon finetuning notebook
-│   └── environment_gnn.yml       # Conda environment for finetuning
+├── src/biodeg/
+│   ├── model.py              # GCN model definition
+│   ├── graph.py              # Molecular graph featurisation
+│   └── config.py             # Configuration handling
 ├── scripts/
-│   ├── run_gnn.py                # GCN training and evaluation script
-│   ├── loss_curves.png           # Training/test loss per fold
-│   ├── confusion_matrix.png      # Confusion matrix - SCS dataset
-│   └── confusion_matrix_biowin.png # Confusion matrix - Biowin dataset
-└── data/
-    └── README.md                 # Instructions for obtaining datasets
+│   ├── run_gnn.py            # GCN training and evaluation
+│   ├── run_fingerprint_baseline.py  # XGBoost/fingerprint baseline
+│   ├── preprocess.py         # Data preprocessing
+│   ├── evaluate.py           # Evaluation utilities
+│   └── download_data.py      # Data download script
+├── legacy_models/
+│   ├── models.ipynb          # KNN, SVM, PLS-DA (Mansouri et al. recreation)
+│   └── environment_mansouri.yml
+├── finetuning/
+│   ├── new_GNN.ipynb         # CheMeleon finetuning notebook
+│   └── environment_gnn.yml
+├── configs/
+│   ├── baseline.yaml         # Fingerprint baseline config
+│   └── gnn.yaml              # GCN config
+├── data/                     # Place datasets here (see Data section)
+├── results/                  # Output figures and metrics
+└── tests/
+    └── test_smoke.py
 ```
 
 ## Setup
+
+### Custom GCN and baselines
+```bash
+conda env create -f environment.yml
+conda activate GNN_chem2
+pip install -e .
+```
 
 ### Legacy ML models (Mansouri recreation)
 ```bash
 conda env create -f legacy_models/environment_mansouri.yml
 conda activate mansouri_models
-```
-
-### Custom GCN
-```bash
-conda env create -f environment.yml
-conda activate GNN_chem2
 ```
 
 ### CheMeleon finetuning
@@ -44,9 +54,8 @@ conda activate GNN_chem2
 
 ## Data
 
-The datasets are from Körner et al. (2024) and are not included in this 
-repository. Download them from their paper or repository and place them in 
-the `data/` folder. The expected files are:
+Datasets are from Körner et al. (2024) and are not included in this repository.
+Download them and place in the `data/` folder. Expected files:
 - `class_curated_biowin.csv`
 - `class_curated_scs.csv`
 - `class_curated_final.csv`
@@ -55,17 +64,23 @@ For the legacy models, `dataset.xlsx` from Mansouri et al. is also required.
 
 ## Running the code
 
-**Legacy ML models:** Open and run `legacy_models/models.ipynb`
-
-**Custom GCN:** 
+**Custom GCN:**
 ```bash
 python scripts/run_gnn.py
 ```
+
+**Fingerprint baseline:**
+```bash
+python scripts/run_fingerprint_baseline.py
+```
+
+**Legacy ML models:** Open and run `legacy_models/models.ipynb`
 
 **CheMeleon finetuning:** Open and run `finetuning/new_GNN.ipynb`
 
 ## Expected outputs
 
-- Balanced accuracy scores for each model on both test sets
-- Confusion matrices saved to `scripts/`
-- Loss curves saved to `scripts/`
+Results are saved to `results/` and `scripts/`:
+- Confusion matrices per model and test set
+- Loss curves per fold for the GCN
+- Balanced accuracy scores printed to console
